@@ -43,8 +43,16 @@ const SAWOL_CHAT_INSTRUCTION = `
 let genAI: GoogleGenAI | null = null;
 
 const getAI = () => {
-    if (!genAI && process.env.API_KEY) {
-        genAI = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    // Check if API key exists before initializing
+    // In Vite build, process.env.API_KEY is replaced with the actual string or undefined
+    const apiKey = process.env.API_KEY;
+    
+    if (!genAI && apiKey) {
+        try {
+            genAI = new GoogleGenAI({ apiKey: apiKey });
+        } catch (e) {
+            console.error("Failed to initialize GoogleGenAI", e);
+        }
     }
     return genAI;
 }
@@ -52,11 +60,11 @@ const getAI = () => {
 export const generateDiaryEntry = async (): Promise<string> => {
   const ai = getAI();
   if (!ai) {
-      return "아이고, 몽당연필이 다 닳아서 일기를 쓸 수가 없네유... (API Key Missing)";
+      console.warn("API Key is missing or invalid.");
+      return "아이고, 몽당연필이 다 닳아서 일기를 쓸 수가 없네유... (API Key가 설정되지 않았습니다)";
   }
 
   try {
-    // Using structured content for better instruction adherence
     const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: "오늘 하루 있었던 일을 일기장에 적어보자. 사월이의 말투로.",
@@ -76,7 +84,7 @@ export const generateDiaryEntry = async (): Promise<string> => {
 export const sendMessageToSawol = async (message: string): Promise<string> => {
   const ai = getAI();
   if (!ai) {
-      return "아이고, 입이 얼어서 말이 안 나오네유... (API Key Missing)";
+      return "아이고, 입이 얼어서 말이 안 나오네유... (API Key가 설정되지 않았습니다)";
   }
 
   try {

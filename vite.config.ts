@@ -6,9 +6,8 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     define: {
-      // Polyfill process.env to prevent "process is not defined" error
-      'process.env': {},
-      // Injects the API key specifically
+      // Injects the API key. We do not polyfill the entire process.env object here 
+      // to avoid breaking internal Vite/React logic.
       'process.env.API_KEY': JSON.stringify(env.API_KEY)
     }
   };
