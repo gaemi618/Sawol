@@ -6,7 +6,9 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     define: {
-      // Injects the API key from Vercel environment variables into the client-side code
+      // Polyfill process.env to prevent "process is not defined" error
+      'process.env': {},
+      // Injects the API key specifically
       'process.env.API_KEY': JSON.stringify(env.API_KEY)
     }
   };
