@@ -59,16 +59,10 @@ export const generateDiaryEntry = async (): Promise<string> => {
     // Using structured content for better instruction adherence
     const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
-        contents: [
-            {
-                role: 'user',
-                parts: [{ text: "오늘 하루 있었던 일을 일기장에 적어보자. 사월이의 말투로." }] 
-            }
-        ],
+        contents: "오늘 하루 있었던 일을 일기장에 적어보자. 사월이의 말투로.",
         config: {
             systemInstruction: SAWOL_DIARY_INSTRUCTION,
             temperature: 0.85, 
-            maxOutputTokens: 500,
         }
     });
     
@@ -88,16 +82,10 @@ export const sendMessageToSawol = async (message: string): Promise<string> => {
   try {
     const result = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
-        contents: [
-            {
-                role: 'user',
-                parts: [{ text: message }]
-            }
-        ],
+        contents: message,
         config: {
             systemInstruction: SAWOL_CHAT_INSTRUCTION,
             temperature: 0.7,
-            maxOutputTokens: 200,
         }
     });
 
