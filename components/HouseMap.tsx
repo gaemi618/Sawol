@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RoomType } from '../types';
-import { MapPin, Home, Info } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 const HouseMap: React.FC = () => {
   const [activeRoom, setActiveRoom] = useState<string | null>(null);

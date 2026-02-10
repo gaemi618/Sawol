@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Snowflake, Utensils, AlertCircle } from 'lucide-react';
+import { Heart, Snowflake, AlertCircle } from 'lucide-react';
 
 const CharacterDetail: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'info' | 'personality' | 'secret'>('info');
